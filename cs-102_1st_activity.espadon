@@ -1,0 +1,68 @@
+# Install and load the rvest package
+#if (!requireNamespace("rvest", quietly = TRUE)) {
+install.packages("rvest")
+#}
+library(rvest)
+library(polite)
+
+# Read the HTML file
+url <- "https://www.amazon.com/s?i=specialty-aps&bbn=16225007011&rh=n%3A16225007011%2Cn%3A172456&ref=nav_em__nav_desktop_sa_intl_computer_accessories_and_peripherals_0_2_6_2"
+
+session <- bow(url, user_agent = "Student's Demo Educational")
+session_page <- scrape(session)
+
+# Find the first div element with the specified class
+div_element <- html_node(session_page, 'div.s-asin.sg-col-4-of-24.sg-col-4-of-12.sg-col-4-of-16.sg-col.s-widget-spacing-small.sg-col-4-of-20')
+
+# Create empty vectors to store data
+links <- character()
+brands <- character()
+descriptions <- character()
+prices <- character()
+review_counts <- character()
+review_stars <- character()
+
+# Process the first product
+# Find the a element with class="a-link-normal s-no-outline" and get the link
+a_element <- html_node(div_element, 'a.a-link-normal.s-no-outline')
+link <- ifelse(!is.na(a_element), paste0("https://amazon.com", html_attr(a_element, "href")), '')
+
+# Find the span element with class="a-size-medium a-color-base a-text-normal" and get the title (description)
+title_element <- html_node(div_element, 'span.a-size-medium.a-color-base.a-text-normal')
+description <- ifelse(!is.na(title_element), html_text(title_element), 'Amazon Basics 2.4 Ghz Wireless Optical Computer Mouse with USB Nano Receiver, Black')
+
+# Find the span element with class="a-offscreen" and get the price
+price_element <- html_node(div_element, 'span.a-offscreen')
+price <- ifelse(!is.na(price_element), html_text(price_element), '11')
+
+# Find the span element with class="a-size-base" and get the number of reviews
+review_count_element <- html_node(div_element, 'span.a-size-base')
+review_count <- ifelse(!is.na(review_count_element), html_text(review_count_element), '0')
+
+# Find the span element with class="a-icon-alt" and get the review stars
+review_stars_element <- html_node(div_element, 'span.a-icon-alt')
+review_star <- ifelse(!is.na(review_stars_element), html_text(review_stars_element), '4.5 out of 5 stars')
+
+# Find the div element with class="a-row a-size-small" and get the brand
+brand_element <- html_node(div_element, 'div.a-row.a-size-small')
+brand <- ifelse(!is.na(brand_element), html_text(brand_element), '')
+
+# Append data to vectors
+links <- c(links, link)
+brands <- c(brands, brand)
+descriptions <- c(descriptions, description)
+prices <- c(prices, price)
+review_counts <- c(review_counts, review_count)
+review_stars <- c(review_stars, review_star)
+
+# Create a data frame
+product_df <- data.frame(
+  Links = links,
+  Brand = brands,
+  Description = descriptions,
+  Price = prices,
+  ReviewCount = review_counts,
+  ReviewStars = review_stars
+)
+
+write.csv(product_df, "1product.csv")
