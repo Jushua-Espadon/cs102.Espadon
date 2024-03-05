@@ -1,0 +1,4 @@
+data(warpbreaks)
+head(warpbreaks)
+
+numeric_columns <- sapply(warpbreaks, function(x) is.numeric(x) || is.integer(x))
