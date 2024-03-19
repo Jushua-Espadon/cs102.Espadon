@@ -7,15 +7,25 @@ output: pdf_document
 
 ``` {r}
 movie1 <- read.csv("/cloud/project/activity#3/csvfiles/movie1_imdb_reviews.csv")
-movie2 <- read.csv("/cloud/project/activity#3/csvfiles/movie2_imdb_reviews.csv")
-movie3 <- read.csv("/cloud/project/activity#3/csvfiles/movie3_imdb_reviews.csv")
-movie4 <- read.csv("/cloud/project/activity#3/csvfiles/movie4_imdb_reviews.csv")
+movie2 <- read.csv("/cloud/project/activity#3/csvfiles/movei2_imdb_reviews.csv")
+movie3 <- read.csv("/cloud/project/activity#3/csvfiles/movei3_imdb_reviews.csv")
+movie4 <- read.csv("/cloud/project/activity#3/csvfiles/movei4_imdb_reviews.csv")
 movie5 <- read.csv("/cloud/project/activity#3/csvfiles/movie5_imdb_reviews.csv")
 movie6 <- read.csv("/cloud/project/activity#3/csvfiles/movie6_imdb_reviews.csv")
 movie7 <- read.csv("/cloud/project/activity#3/csvfiles/movie7_imdb_reviews.csv")
 movie8 <- read.csv("/cloud/project/activity#3/csvfiles/movie8_imdb_reviews.csv")
 movie9 <- read.csv("/cloud/project/activity#3/csvfiles/movie9_imdb_reviews.csv")
 movie10 <- read.csv("/cloud/project/activity#3/csvfiles/movie10_imdb_reviews.csv")
+
+colnames(movie2) <- colnames(movie1)
+colnames(movie3) <- colnames(movie1)
+colnames(movie4) <- colnames(movie1)
+colnames(movie5) <- colnames(movie1)
+colnames(movie6) <- colnames(movie1)
+colnames(movie7) <- colnames(movie1)
+colnames(movie8) <- colnames(movie1)
+colnames(movie9) <- colnames(movie1)
+colnames(movie10) <- colnames(movie1)
 
 merged_movies <- rbind(movie1,movie2,movie3,movie4,movie5,movie6,movie7,movie8,movie9,movie10)
 
